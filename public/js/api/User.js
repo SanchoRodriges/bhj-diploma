@@ -4,12 +4,16 @@
  * Имеет свойство URL, равное '/user'.
  * */
 class User {
+
+  static URL = '/user';
+
   /**
    * Устанавливает текущего пользователя в
    * локальном хранилище.
    * */
   static setCurrent(user) {
-
+    user = JSON.stringify(user);
+    localStorage.setItem('user', user);
   }
 
   /**
@@ -17,7 +21,7 @@ class User {
    * пользователе из локального хранилища.
    * */
   static unsetCurrent() {
-
+    delete localStorage.user;
   }
 
   /**
@@ -25,7 +29,7 @@ class User {
    * из локального хранилища
    * */
   static current() {
-
+    return (localStorage.user) ? JSON.parse(localStorage.user) : undefined;
   }
 
   /**
@@ -33,7 +37,19 @@ class User {
    * авторизованном пользователе.
    * */
   static fetch(callback) {
-
+    const xhr = createRequest({
+      // ...
+      // задаём функцию обратного вызова
+      callback( err, response ) {
+        if ( response && response.user ) {
+          User.setCurrent( response.user );
+        }
+        // ...
+        // вызываем параметр, переданный в метод fetch
+        callback( err, response );
+      }
+      // ...
+    });
   }
 
   /**
@@ -46,7 +62,6 @@ class User {
     createRequest({
       url: this.URL + '/login',
       method: 'POST',
-      responseType: 'json',
       data,
       callback: (err, response) => {
         if (response && response.user) {
@@ -64,7 +79,19 @@ class User {
    * User.setCurrent.
    * */
   static register(data, callback) {
+    createRequest({
+      url: this.URL + '/register',
+      method: 'POST',
+      data,
+      callback: (err, response) => {
+        if (response && response.user) {
+          this.setCurrent(response.user);
+        }
+        callback(err, response);
+      }
+    });
 
+    
   }
 
   /**
@@ -72,6 +99,15 @@ class User {
    * выхода необходимо вызвать метод User.unsetCurrent
    * */
   static logout(callback) {
-
+    createRequest({
+      url: this.URL + '/logout',
+      method: 'POST',
+      callback: (err, response) => {
+        if (response.success) {
+          this.unsetCurrent();
+        }
+        callback(err, response);
+      }
+    });
   }
 }
