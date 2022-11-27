@@ -232,6 +232,24 @@
       "account_id": "6xupfmd5clasi5r2w",
       "user_id": "6xupfm8uklas7yy2h",
       "created_at": "2022-11-25T13:13:24.967Z"
+    },
+    {
+      "id": "6xupfmf8olaz0s5p7",
+      "type": "income",
+      "name": "пластик",
+      "sum": 100,
+      "account_id": "6xupfm6e8lashwyen",
+      "user_id": "6xupfm8uklas7yy2h",
+      "created_at": "2022-11-27T07:08:19.290Z"
+    },
+    {
+      "id": "6xupfm3yklaz0sjy5",
+      "type": "income",
+      "name": "счёт",
+      "sum": 100,
+      "account_id": "6xupfmd5clasi5r2w",
+      "user_id": "6xupfm8uklas7yy2h",
+      "created_at": "2022-11-27T07:08:37.756Z"
     }
   ]
 }

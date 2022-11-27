@@ -13,12 +13,14 @@ class AsyncForm {
    * через registerEvents()
    * */
   constructor(element) {
-    if (element) {
-      this.element = element;
-      this.registerEvents();
-    } else {
+
+    if (!element) {
       throw new Error('Передан пустой элемент!');
     }
+
+    this.element = element;
+    this.registerEvents();
+
   }
 
   /**
@@ -41,15 +43,9 @@ class AsyncForm {
    * */
   getData() {
 
-    const result = {};
+    const formData = new FormData(this.element);
+    return Object.fromEntries(formData.entries());
 
-    const formData = new FormData( this.element );
-
-    for (let [name, value] of formData) {
-        result[name] = value;
-    }
-
-    return result;
   }
 
   onSubmit(options){

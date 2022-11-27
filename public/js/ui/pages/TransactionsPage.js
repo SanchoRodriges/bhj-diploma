@@ -11,19 +11,21 @@ class TransactionsPage {
    * через registerEvents()
    * */
   constructor( element ) {
-    if (element) {
-      this.element = element;
-      this.registerEvents();
-    } else {
+
+    if (!element) {
       throw new Error('Передан пустой элемент!');
     }
+
+    this.element = element;
+    this.registerEvents();
+
   }
 
   /**
    * Вызывает метод render для отрисовки страницы
    * */
   update() {
-    this.lastOptions ? this.render(this.lastOptions) : this.render();    
+    this.render(this.lastOptions);
   }
 
   /**
@@ -72,8 +74,6 @@ class TransactionsPage {
           App.updateForms();
         }
       })
-    } else {
-      return false;
     };
     
   }
@@ -103,22 +103,23 @@ class TransactionsPage {
    * в TransactionsPage.renderTransactions()
    * */
   render(options){
+    
     if (!options) {
       return false;
     }
+
     this.lastOptions = options;
 
     Account.get(options.account_id, (err, response) => {
-      
       if (response.success) {
         this.renderTitle(response.data.name);
       }
+    });
 
-      Transaction.list(options, (err, response) => {
-        this.renderTransactions(response.data);
-      })
-      
+    Transaction.list(options, (err, response) => {
+      this.renderTransactions(response.data);
     })
+
   }
 
   /**

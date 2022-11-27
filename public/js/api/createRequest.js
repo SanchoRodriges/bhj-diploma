@@ -8,10 +8,8 @@ const createRequest = (options = {}) => {
     const xhr = new XMLHttpRequest;
     const formData = new FormData;
     
-    let url, 
-        method = options.method,
-        data = options.data,
-        callback = options.callback;
+    let url;
+    let {method, data, callback} = options;
     
     if (method === 'GET') {
 
